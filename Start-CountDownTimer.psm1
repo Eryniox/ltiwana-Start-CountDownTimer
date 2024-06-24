@@ -32,12 +32,6 @@ Function Start-CountDownTimer {
     )
 
     $Timer = 0; $i = 1
-
-    if (!$Seconds -and !$Minutes -and !$Hours -and !$EndTime -and !$EndTimeString) {
-        Write-Warning "No parameters were supplied, default is 1 minute"
-        $Timer = New-TimeSpan -Minutes 1
-        #Write-Error  -Message "At least one parameter is required" -RecommendedAction "Usage: Start-CountDownTimer -seconds 35" -Category NotSpecified -Exception "Missing one of the following parameters -Seconds, -Minutes, -Hours" -TargetObject "Missing Parameters"
-    }
     
     if ($EndTimeString) {
         Write-Verbose "End Time String was supplied"
@@ -57,6 +51,12 @@ Function Start-CountDownTimer {
         $Seconds = $TimerEnd.Seconds
         $Minutes = $TimerEnd.Minutes
         $Hours = $TimerEnd.Hours + ( $TimerEnd.Days * 24 )
+    }
+
+    if (!$Seconds -and !$Minutes -and !$Hours) {
+        Write-Warning "No parameters were supplied, default is 1 minute"
+        $Timer = New-TimeSpan -Minutes 1
+        #Write-Error  -Message "At least one parameter is required" -RecommendedAction "Usage: Start-CountDownTimer -seconds 35" -Category NotSpecified -Exception "Missing one of the following parameters -Seconds, -Minutes, -Hours" -TargetObject "Missing Parameters"
     }
 
     Write-Verbose "Following values were supplied"
